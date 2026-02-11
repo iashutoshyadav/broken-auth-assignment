@@ -1,0 +1,38 @@
+PS C:\Users\ashutosh yadav\OneDrive\Desktop\Broken Auth\broken_auth_assignment> npm start
+
+> silent-server-assignment@1.0.0 start
+> node server.js
+
+Server running at http://localhost:3000
+POST /auth/login
+[OTP] Session amsnn41v generated. OTP:705518
+POST /auth/login -> 200 (46ms)
+POST /auth/verify-otp
+POST /auth/verify-otp -> 200 (6ms)
+POST /auth/token
+POST /auth/token -> 200 (12ms)
+GET /protected
+GET /protected -> 200 (7ms)
+
+
+
+ashutosh yadav@LAPTOP-ASHUTOSH MINGW64 ~/OneDrive/Desktop/Broken Auth/broken_auth_assignment (main)
+$ curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"ay0754416@gmail.com","password":"password123"}'
+{"message":"OTP sent","loginSessionId":"amsnn41v"}
+
+ashutosh yadav@LAPTOP-ASHUTOSH MINGW64 ~/OneDrive/Desktop/Broken Auth/broken_auth_assignment (main)
+$ curl -c cookies.txt -X POST http://localhost:3000/auth/verify-otp \
+  -H "Content-Type: application/json" \
+  -d '{"loginSessionId":"amsnn41v","otp":"705518"}'
+{"message":"OTP verified"}
+
+ashutosh yadav@LAPTOP-ASHUTOSH MINGW64 ~/OneDrive/Desktop/Broken Auth/broken_auth_assignment (main)
+$ curl -b cookies.txt -X POST http://localhost:3000/auth/token
+{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5MDc1NDQxNkBnbWFpbC5jb20iLCJzZXNzaW9uSWQiOiJhbXNubjQxdiIsImlhdCI6MTc3MDg1MTQwOSwiZXhwIjoxNzcwODUyMzA5fQ.TL9n9tEk4q8Vq3lu_fbqCy8m8xuPcwuv28d_ZReTHlg","expires_in":900}
+
+ashutosh yadav@LAPTOP-ASHUTOSH MINGW64 ~/OneDrive/Desktop/Broken Auth/broken_auth_assignment (main)
+$ curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5MDc1NDQxNkBnbWFpbC5jb20iLCJzZXNzaW9uSWQiOiJhbXNubjQxdiIsImlhdCI6MTc3MDg1MTQwOSwiZXhwIjoxNzcwODUyMzA5fQ.TL9n9tEk4q8Vq3lu_fbqCy8m8xuPcwuv28d_ZReTHlg" http://localhost:3000/protected
+{"message":"Access granted","user":{"email":"ay0754416@gmail.com","sessionId":"amsnn41v","iat":1770851409,"exp":1770852309},"success_flag":"FLAG-YXkwNzU0NDE2QGdtYWlsLmNvbV9DT01QTEVURURfQVNTSUdOTUVOVA=="}
+
